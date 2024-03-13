@@ -1,2 +1,3 @@
 from .contest_standings import get_contest_standings
 from .contest_hacks import get_constest_hacks
+from .blog_entry_comments import get_blog_entry_comments
