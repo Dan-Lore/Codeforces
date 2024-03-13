@@ -5,8 +5,8 @@ from codeforces_api_worker.request import request
 
 def get_blog_entry_comments(blogEntryId:int):
     method_name = 'blogEntry.comments'
-    parameters = {key: value for key, value in locals().items() if value is not None}
-    response = request.request(method_name, parameters)
+    
+    response = request.request(method_name, locals().items())
 
     # Проверка статуса ответа
     if response.status_code == 200:

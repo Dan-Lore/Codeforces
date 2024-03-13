@@ -1,12 +1,23 @@
+import json
 import requests
 import time
 
 from .generator_rand_string import generate_random_string
 from .generator_api_sig import generate_api_sig
 
-def request(method_name:str, parameters:dict, key:str = None, secret:str = None):
+def request(method_name:str, parameters:dict):
     url = 'https://codeforces.com/api/'
     parameters['lang'] = 'ru'
+
+    #Какой метод лучше?
+    #parameters = filter(lambda key, value: value is not None, locals().items())
+    parameters = {key: value for key, value in locals().items() if value is not None}
+
+    if parameters['asManager']:
+        with open('data.json', 'r') as f:
+            data = json.load(f)
+            key = data['key']
+            secret = data['secret']
 
     # Формирование подписи для авторизированного запроса
     if all([key, secret]):

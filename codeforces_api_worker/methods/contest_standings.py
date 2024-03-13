@@ -8,17 +8,7 @@ def get_contest_standings(contestId:int,
                           handle:list=None, room:int=None, showUnofficial:bool=None):
     method_name = 'contest.standings'
 
-    #params = filter(lambda key, value: value is not None, locals().items())
-    parameters = {key: value for key, value in locals().items() if value is not None}
-
-    if parameters['asManager']:
-        with open('data.json', 'r') as f:
-            data = json.load(f)
-            key = data['key']
-            secret = data['secret']
-        response = request.request(method_name, parameters, key, secret)
-    else:
-        response = request.request(method_name, parameters)
+    response = request.request(method_name, locals().items())
 
     # Проверка статуса ответа
     if response.status_code == 200:
