@@ -11,22 +11,22 @@ def request(method_name:str, parameters:dict):
 
     #Какой метод лучше?
     #parameters = filter(lambda key, value: value is not None, locals().items())
-    parameters = {key: value for key, value in locals().items() if value is not None}
+    parameters = {key: value for key, value in parameters.items() if value is not None}
 
-    if parameters['asManager']:
+    if 'asManager' in parameters and parameters['asManager']:
         with open('data.json', 'r') as f:
             data = json.load(f)
             key = data['key']
             secret = data['secret']
+        # Формирование подписи для авторизированного запроса
+        if all([key, secret]):
+            parameters['apiKey'] = key
+            parameters['time'] = int(time.time())
 
-    # Формирование подписи для авторизированного запроса
-    if all([key, secret]):
-        parameters['apiKey'] = key
-        parameters['time'] = int(time.time())
-
-        rand = generate_random_string(6)
-        api_sig = generate_api_sig(rand, method_name, parameters, secret)
-        parameters['apiSig'] = rand + api_sig
+            rand = generate_random_string(6)
+            api_sig = generate_api_sig(rand, method_name, parameters, secret)
+            parameters['apiSig'] = rand + api_sig
+    
 
     # Формирование URL с параметрами запроса
     url = f'{url}{method_name}?'
