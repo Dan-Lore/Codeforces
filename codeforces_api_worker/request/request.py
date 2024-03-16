@@ -39,4 +39,4 @@ def request(method_name:str, parameters:dict):
 
 
 if __name__ == "__main__":
-    print("gay sex")
+    print("TEST")
